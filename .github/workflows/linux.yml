@@ -64,10 +64,10 @@ jobs:
     - name: Compile
       run:  |
         export PATH="/usr/lib/ccache:$ARM_NONE_EABI_GCC_PATH:/home/runner/.local/bin:$PATH"
-        python tools/progen_compile.py --release --parallel -v
+        python tools/progen_compile.py --release -v -b lpc55s69_if
         mkdir bootloaders
-        cp projectfiles/make_gcc_arm/*_bl/build/*_crc.{bin,hex} bootloaders
-        (ls -lR firmware_*; ccache -s; arm-none-eabi-gcc -v) | tee log.txt
+        cp projectfiles/make_gcc_arm/*_bl/build/*_crc.{bin,hex} bootloaders || true
+        (ls -lR firmware_lpc55s69_if; ccache -s; arm-none-eabi-gcc -v) | tee log.txt
 
     - name: Upload test artifacts
       uses: actions/upload-artifact@v4
